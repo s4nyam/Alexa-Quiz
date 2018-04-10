@@ -1,8 +1,6 @@
 'use strict';
 const Alexa = require('alexa-sdk');
 
-// Aliases to Image and Text utility functions. These are used for display 
-// directives which are rendered on Echo Show and Echo Spot.
 
 const MAKE_TEXT_CONTENT = Alexa.utils.TextUtils.makeTextContent;
 const MAKE_IMAGE = Alexa.utils.ImageUtils.makeImage;
@@ -12,20 +10,11 @@ const MAKE_PLAIN_TEXT = Alexa.utils.TextUtils.makePlainText;
 const IMAGE_PATH = "https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/quiz-game/state_flag/{0}x{1}/{2}._TTH_.png";
 const BACKGROUND_IMAGE_PATH = "https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/quiz-game/state_flag/{0}x{1}/{2}._TTH_.png"
 
-//=========================================================================================================================================
-//TODO: The items below this comment need your attention
-//=========================================================================================================================================
 
-// Replace with your app ID (OPTIONAL).  You can find this value at the top of 
-// your skill's page on http://developer.amazon.com. Make sure to enclose your 
-// value in quotes, like this: 
 // const APP_ID = "amzn1.ask.skill.bb4045e6-b3e8-4133-b650-72923c5980f1";
 const APP_ID = undefined;
 
-// This function returns a descriptive sentence about your data.  Before a user 
-// starts a quiz, they can ask about a specific data element, like "Ohio."  
-// The skill will speak the sentence from this function, pulling the data values
-// from the appropriate record in your data.
+
 function getSpeechDescription(item)
 {
     let sentence = item.StateName + " is the " + item.StatehoodOrder + "th state, admitted to the Union in " + item.StatehoodYear +
@@ -35,47 +24,19 @@ function getSpeechDescription(item)
     return sentence;
 }
 
-// We have provided two ways to create your quiz questions.  The default way is 
-// to phrase all of your questions like: "What is X of Y?" If this approach 
-// doesn't work for your data, take a look at the commented code in this 
-// function.  You can write a different question structure for each property of 
-// your data.
+
 function getQuestion(counter, property, item)
 {
     return "Here is your " + counter + "th question.  What is the " + formatCasing(property) + " of "  + item.StateName + "?";
 
-    /*
-    switch(property)
-    {
-        case "City":
-            return "Here is your " + counter + "th question.  In what city do the " + item.League + "'s "  + item.Mascot + " play?";
-        break;
-        case "Sport":
-            return "Here is your " + counter + "th question.  What sport do the " + item.City + " " + item.Mascot + " play?";
-        break;
-        case "HeadCoach":
-            return "Here is your " + counter + "th question.  Who is the head coach of the " + item.City + " " + item.Mascot + "?";
-        break;
-        default:
-            return "Here is your " + counter + "th question.  What is the " + formatCasing(property) + " of the "  + item.Mascot + "?";
-        break;
-    }
-    */
 }
 
-// getQuestionWithoutOrdinal returns the question without the ordinal and is 
-// used for the echo show.
+
 function getQuestionWithoutOrdinal(property, item)
 {
     return "What is the " + formatCasing(property).toLowerCase() + " of "  + item.StateName + "?";
 }
 
-// This is the function that returns an answer to your user during the quiz.  
-// Much like the "getQuestion" function above, you can use a switch() statement 
-// to create different responses for each property in your data.  For example, 
-// when this quiz has an answer that includes a state abbreviation, we add some 
-// SSML to make sure that Alexa spells that abbreviation out (instead of trying 
-// to pronounce it.)
 function getAnswer(property, item)
 {
     switch(property)
@@ -86,17 +47,10 @@ function getAnswer(property, item)
             return "The " + formatCasing(property) + " of " + item.StateName + " is " + item[property] + ". ";
     }
 }
-
-// This is a list of positive speechcons that this skill will use when a user 
-// gets a correct answer.  For a full list of supported speechcons, 
-// go here: https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference
 const speechConsCorrect = ["Booya", "All righty", "Bam", "Bazinga", "Bingo", "Boom", "Bravo", "Cha Ching", "Cheers", "Dynomite",
 "Hip hip hooray", "Hurrah", "Hurray", "Huzzah", "Oh dear.  Just kidding.  Hurray", "Kaboom", "Kaching", "Oh snap", "Phew",
 "Righto", "Way to go", "Well done", "Whee", "Woo hoo", "Yay", "Wowza", "Yowsa"];
 
-// This is a list of negative speechcons that this skill will use when a user 
-// gets an incorrect answer.  For a full list of supported speechcons, 
-// go here: https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference
 const speechConsWrong = ["Argh", "Aw man", "Blarg", "Blast", "Boo", "Bummer", "Darn", "D'oh", "Dun dun dun", "Eek", "Honk", "Le sigh",
 "Mamma mia", "Oh boy", "Oh dear", "Oof", "Ouch", "Ruh roh", "Shucks", "Uh oh", "Wah wah", "Whoops a daisy", "Yikes"];
 
